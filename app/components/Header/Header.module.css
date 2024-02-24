@@ -53,10 +53,6 @@
     box-shadow: 4px 4px 0 black, -4px -4px 0 black, -4px 4px 0 black, 4px -4px 0 black;
   }
   
-  .menu__link:hover {
-    background-color: #FFFF00;
-  }
-  
   .auth {
     display: flex;
   }
@@ -73,10 +69,31 @@
     background-color: black;
     transition: color 0.3s ease-in-out;
   }
-  
-  .auth__button:hover {
-    color: #FFFF00;
+
+  @media (hover: hover) {
+    .auth__button:hover {
+      color: #FFFF00;
+    }
+
+    .menu__link:hover {
+      background-color: #FFFF00;
+    }
   }
+
+  @media (hover: none) {
+    .auth__button:active {
+      color: #FFFF00;
+    }
+
+    .menu__link:active {
+      background-color: #FFFF00;
+    }
+  }
+
+  .menu__link_active {
+    background-color: #ffff00;
+    pointer-events: none;
+  } 
 
 
   @media (width <= 1440px) {

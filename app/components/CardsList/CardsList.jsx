@@ -1,3 +1,4 @@
+import Link from "next/link";
 import Styles from "./CardsList.module.css";
 import { Card } from "../Card/Card";
 
@@ -11,13 +12,12 @@ export const CardsList = (props) => {
         {props.data.map((item) => {
           return (
             <li className={Styles["cards-list__item"]} key={item.id}>
-              <a
-                href={item.link}
-                target="_blank"
+              <Link
+                href={`/games/${item.id}`}
                 className={Styles["card-list__link"]}
               >
                 <Card {...item} />
-              </a>
+              </Link>
             </li>
           );
         })}
