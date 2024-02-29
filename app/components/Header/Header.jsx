@@ -33,9 +33,9 @@ export const Header = () => {
         <ul className={Styles.menu__list}>
           <li className={Styles.menu__item}>
             <Link
-              href="/new"
+              href="/category/new"
               className={`${Styles["menu__link"]} ${
-                pathname === "/new" ? Styles["menu__link_active"] : ""
+                pathname === "/category/new" ? Styles["menu__link_active"] : ""
               }`}
             >
               Новинки
@@ -43,9 +43,9 @@ export const Header = () => {
           </li>
           <li className={Styles.menu__item}>
             <Link
-              href="/popular"
+              href="/category/popular"
               className={`${Styles["menu__link"]} ${
-                pathname === "/popular" ? Styles["menu__link_active"] : ""
+                pathname === "/category/popular" ? Styles["menu__link_active"] : ""
               }`}
             >
               Популярные
@@ -53,9 +53,9 @@ export const Header = () => {
           </li>
           <li className={Styles.menu__item}>
             <Link
-              href="/shooters"
+              href="/category/shooter"
               className={`${Styles["menu__link"]} ${
-                pathname === "/shooters" ? Styles["menu__link_active"] : ""
+                pathname === "/category/shooter" ? Styles["menu__link_active"] : ""
               }`}
             >
               Шутеры
@@ -63,9 +63,9 @@ export const Header = () => {
           </li>
           <li className={Styles.menu__item}>
             <Link
-              href="/runners"
+              href="/category/runner"
               className={`${Styles["menu__link"]} ${
-                pathname === "/runners" ? Styles["menu__link_active"] : ""
+                pathname === "/category/runner" ? Styles["menu__link_active"] : ""
               }`}
             >
               Ранеры
@@ -73,9 +73,9 @@ export const Header = () => {
           </li>
           <li className={Styles.menu__item}>
             <Link
-              href="/pixel-games"
+              href="/category/pixel"
               className={`${Styles["menu__link"]} ${
-                pathname === "/pixel-games" ? Styles["menu__link_active"] : ""
+                pathname === "/category/pixel" ? Styles["menu__link_active"] : ""
               }`}
             >
               Пиксельные
@@ -83,9 +83,9 @@ export const Header = () => {
           </li>
           <li className={Styles.menu__item}>
             <Link
-              href="/tds"
+              href="/category/TDS"
               className={`${Styles["menu__link"]} ${
-                pathname === "/tds" ? Styles["menu__link_active"] : ""
+                pathname === "/category/TDS" ? Styles["menu__link_active"] : ""
               }`}
             >
               TDS
@@ -98,10 +98,12 @@ export const Header = () => {
           </button>
         </div>
       </nav>
-      <Overlay isOpened={popupIsOpened} handlePopUp={handlePopUp} />
-      <Popup isOpened={popupIsOpened} handlePopUp={handlePopUp}>
-        <AuthForm />
-      </Popup>
+      {popupIsOpened && <>
+        <Overlay handlePopUp={handlePopUp} />
+        <Popup handlePopUp={handlePopUp} >
+          <AuthForm />
+        </Popup>
+      </>}
     </header>
   );
 };
