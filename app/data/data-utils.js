@@ -11,7 +11,3 @@ export const getGamesByCategory = (category) => {
 export const getGameByID = (id) => {
   return data.find((game) => game.id === Number(id));
 };
-
-export const getGameByName = (name) => {
-  return data.find((game) => game.title === name.replace("%20", " "));
-};
