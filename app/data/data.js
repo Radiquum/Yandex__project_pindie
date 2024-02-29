@@ -281,7 +281,7 @@ export const data = [
   },
 ];
 
-export const data_caregory = {
+export const data_category = {
   "new": "Новинки",
   "popular": "Популярные",
   "shooter": "Шутеры",
