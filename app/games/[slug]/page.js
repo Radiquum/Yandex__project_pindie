@@ -1,24 +1,48 @@
 "use client";
 
-import { getGameByID } from "@/app/data/data-utils";
 import { GamePage } from "@/app/components/GamePage/GamePage";
 import { GameNotFound } from "@/app/components/GameNotFound/GameNotFound";
-import { useRouter } from 'next/navigation'
 import { usePathname } from "next/navigation";
+import { endpoints } from "@/app/api/config";
+import { getNormalizedGameDataById, isResponseOk } from "@/app/api/api-utils";
+import { useState, useEffect } from "react";
+import { Preloader } from "@/app/components/Preloader/Preloader";
 
 export default function Home(props) {
-  const router = useRouter()
+  const [preloaderVisible, setPreloaderVisible] = useState(true);
+  const [game, setGame] = useState(null);
   const pathname = usePathname();
 
-  const game = getGameByID(props.params.slug[props.params.slug.search(/\d$/gm)])
-  {pathname != `/games/${game.title.replace(/\W/gm, "-")}-${game.id}` && router.replace(`/games/${game.title.replace(/\W/gm, "-")}-${game.id}`)}
+  useEffect(() => {
+    async function fetchData() {
+      const request = await getNormalizedGameDataById(
+        endpoints.games,
+        props.params.slug.match(/\d*$/).toString()
+      );
+      if (isResponseOk(request)) {
+        setGame(request);
+        const gameTitle = `${request.title.replace(/\W/gm, "-")}-${request.id}`;
+        const newUrl = `${window.location.origin}/games/${gameTitle}`;
+        pathname != `/games/${gameTitle}` &&
+          window.history.replaceState(
+            { ...window.history.state, as: newUrl, url: newUrl },
+            "",
+            newUrl
+          );
+      }
+      setPreloaderVisible(false);
+    }
+    fetchData();
+  }, []);
 
   return (
     <main className="main">
       {game ? (
-        <GamePage {...game}/>
+        <GamePage {...game} />
+      ) : preloaderVisible ? (
+        <Preloader />
       ) : (
-          <GameNotFound/>
+        <GameNotFound />
       )}
     </main>
   );

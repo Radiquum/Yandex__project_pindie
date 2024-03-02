@@ -1,14 +1,15 @@
-import { data_category } from "@/app/data/data";
 import { CardsList } from "../../components/CardsList/CardsList";
-import { getGamesByCategory } from "../../data/data-utils";
+import { getNormalizedGamesDataByCategory } from "@/app/api/api-utils";
+import { endpoints } from "@/app/api/config";
+import { data_category } from "@/app/data/data";
 
-export default function Home(props) {
+export default async function Home(props) {
   return (
     <main className="main">
       <CardsList
         title={data_category[props.params.category]}
         id={props.params.category}
-        data={getGamesByCategory(props.params.category)}
+        data={await getNormalizedGamesDataByCategory(endpoints.games, props.params.category)}
       ></CardsList>
     </main>
   );
