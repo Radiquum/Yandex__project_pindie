@@ -9,6 +9,7 @@ import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { getMe, getJWT, isResponseOk, removeJWT } from "@/app/api/api-utils";
 import { endpoints } from "@/app/api/config";
+import { data_category } from "@/app/data/data";
 
 export const Header = () => {
   const [popupIsOpened, setPopupIsOpened] = useState(false);
@@ -41,7 +42,7 @@ export const Header = () => {
       <Link
         href="/"
         className={Styles.logo}
-        style={pathname == "/" ? {pointerEvents: "none"} : {}}
+        style={pathname == "/" ? { pointerEvents: "none" } : {}}
         aria-disabled={pathname == "/"}
         tabIndex={pathname == "/" ? -1 : undefined}
       >
@@ -53,66 +54,21 @@ export const Header = () => {
       </Link>
       <nav className={Styles.menu}>
         <ul className={Styles.menu__list}>
-          <li className={Styles.menu__item}>
-            <Link
-              href="/category/new"
-              className={`${Styles["menu__link"]} ${
-                pathname === "/category/new" && Styles["menu__link_active"]
-              }`}
-            >
-              Новинки
-            </Link>
-          </li>
-          <li className={Styles.menu__item}>
-            <Link
-              href="/category/popular"
-              className={`${Styles["menu__link"]} ${
-                pathname === "/category/popular" && Styles["menu__link_active"]
-              }`}
-            >
-              Популярные
-            </Link>
-          </li>
-          <li className={Styles.menu__item}>
-            <Link
-              href="/category/shooter"
-              className={`${Styles["menu__link"]} ${
-                pathname === "/category/shooter" && Styles["menu__link_active"]
-              }`}
-            >
-              Шутеры
-            </Link>
-          </li>
-          <li className={Styles.menu__item}>
-            <Link
-              href="/category/runner"
-              className={`${Styles["menu__link"]} ${
-                pathname === "/category/runner" && Styles["menu__link_active"]
-              }`}
-            >
-              Ранеры
-            </Link>
-          </li>
-          <li className={Styles.menu__item}>
-            <Link
-              href="/category/pixel"
-              className={`${Styles["menu__link"]} ${
-                pathname === "/category/pixel" && Styles["menu__link_active"]
-              }`}
-            >
-              Пиксельные
-            </Link>
-          </li>
-          <li className={Styles.menu__item}>
-            <Link
-              href="/category/TDS"
-              className={`${Styles["menu__link"]} ${
-                pathname === "/category/TDS" && Styles["menu__link_active"]
-              }`}
-            >
-              TDS
-            </Link>
-          </li>
+          {Object.entries(data_category).map(([key, value]) => {
+            return (
+              <li className={Styles.menu__item} key={key}>
+                <Link
+                  href={`/category/${key}`}
+                  className={`${Styles["menu__link"]} ${
+                    pathname === `/category/${key}` &&
+                    Styles["menu__link_active"]
+                  }`}
+                >
+                  {`${value}`}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
         <div className={Styles.auth}>
           <button
