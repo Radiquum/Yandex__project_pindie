@@ -41,7 +41,7 @@ export const Header = () => {
       <Link
         href="/"
         className={Styles.logo}
-        Style={pathname == "/" ? "pointer-events: none" : ""}
+        style={pathname == "/" ? {pointerEvents: "none"} : {}}
         aria-disabled={pathname == "/"}
         tabIndex={pathname == "/" ? -1 : undefined}
       >
