@@ -16,6 +16,14 @@
   
 }
 
+.not-found__block {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 16px;
+}
+
 .not-found__text {
   font-size: 48px;
 }

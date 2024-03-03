@@ -1,7 +1,7 @@
 "use client";
 
 import { GamePage } from "@/app/components/GamePage/GamePage";
-import { GameNotFound } from "@/app/components/GameNotFound/GameNotFound";
+import { Error } from "@/app/components/Error/Error";
 import { usePathname } from "next/navigation";
 import { endpoints } from "@/app/api/config";
 import { getNormalizedGameDataById, isResponseOk } from "@/app/api/api-utils";
@@ -42,7 +42,7 @@ export default function Home(props) {
       ) : preloaderVisible ? (
         <Preloader />
       ) : (
-        <GameNotFound />
+        <Error error="Такой игры не существует" />
       )}
     </main>
   );

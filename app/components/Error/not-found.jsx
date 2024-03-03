@@ -1,4 +1,4 @@
-import Styles from './GameNotFound.module.css';
+import Styles from './Error.module.css';
 
 export const NotFoundImage= () => {
   return (
