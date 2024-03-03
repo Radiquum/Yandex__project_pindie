@@ -20,7 +20,7 @@ export const AuthForm = (props) => {
     if (isResponseOk(userData)) {
       setUserData(userData);
       props.setAuth(true);
-      setJWT(userData.jwt)
+      setJWT(userData.jwt);
       setMessage({ status: "success", text: "Вы авторизовались!" });
     } else {
       setMessage({ status: "error", text: "Неверные почта или пароль" });
@@ -28,14 +28,14 @@ export const AuthForm = (props) => {
   };
 
   useEffect(() => {
-    let timer; 
+    let timer;
     if (userData) {
       timer = setTimeout(() => {
         props.handlePopUp();
       }, 1000);
     }
     return () => clearTimeout(timer);
-  }, [userData]); 
+  }, [userData]);
 
   return (
     <form className={Styles["form"]} onSubmit={handleSubmit}>
@@ -71,8 +71,8 @@ export const AuthForm = (props) => {
         </button>
       </div>
       {message.status && (
-          <p className={Styles["form__message"]}>{message.text}</p>
-        )}
+        <p className={Styles["form__message"]}>{message.text}</p>
+      )}
     </form>
   );
 };

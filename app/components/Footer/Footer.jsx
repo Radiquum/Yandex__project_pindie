@@ -12,7 +12,7 @@ export const Footer = () => {
       <Link
         href="/"
         className={Styles.footer__logo}
-        style={pathname == "/" ? {pointerEvents: "none"} : {}}
+        style={pathname == "/" ? { pointerEvents: "none" } : {}}
         aria-disabled={pathname == "/"}
         tabIndex={pathname == "/" ? -1 : undefined}
       >
