@@ -57,7 +57,7 @@ export const Header = () => {
             <Link
               href="/category/new"
               className={`${Styles["menu__link"]} ${
-                pathname === "/category/new" ? Styles["menu__link_active"] : ""
+                pathname === "/category/new" && Styles["menu__link_active"]
               }`}
             >
               Новинки
@@ -67,9 +67,7 @@ export const Header = () => {
             <Link
               href="/category/popular"
               className={`${Styles["menu__link"]} ${
-                pathname === "/category/popular"
-                  ? Styles["menu__link_active"]
-                  : ""
+                pathname === "/category/popular" && Styles["menu__link_active"]
               }`}
             >
               Популярные
@@ -79,9 +77,7 @@ export const Header = () => {
             <Link
               href="/category/shooter"
               className={`${Styles["menu__link"]} ${
-                pathname === "/category/shooter"
-                  ? Styles["menu__link_active"]
-                  : ""
+                pathname === "/category/shooter" && Styles["menu__link_active"]
               }`}
             >
               Шутеры
@@ -91,9 +87,7 @@ export const Header = () => {
             <Link
               href="/category/runner"
               className={`${Styles["menu__link"]} ${
-                pathname === "/category/runner"
-                  ? Styles["menu__link_active"]
-                  : ""
+                pathname === "/category/runner" && Styles["menu__link_active"]
               }`}
             >
               Ранеры
@@ -103,9 +97,7 @@ export const Header = () => {
             <Link
               href="/category/pixel"
               className={`${Styles["menu__link"]} ${
-                pathname === "/category/pixel"
-                  ? Styles["menu__link_active"]
-                  : ""
+                pathname === "/category/pixel" && Styles["menu__link_active"]
               }`}
             >
               Пиксельные
@@ -115,7 +107,7 @@ export const Header = () => {
             <Link
               href="/category/TDS"
               className={`${Styles["menu__link"]} ${
-                pathname === "/category/TDS" ? Styles["menu__link_active"] : ""
+                pathname === "/category/TDS" && Styles["menu__link_active"]
               }`}
             >
               TDS

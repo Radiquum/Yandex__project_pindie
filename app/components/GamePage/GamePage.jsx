@@ -2,7 +2,12 @@
 import Styles from "./Game.module.css";
 import { endpoints } from "@/app/api/config";
 import { useState, useEffect } from "react";
-import { getMe, getJWT, checkIfUserVoted, isResponseOk } from "@/app/api/api-utils";
+import {
+  getMe,
+  getJWT,
+  checkIfUserVoted,
+  isResponseOk,
+} from "@/app/api/api-utils";
 
 export const GamePage = (props) => {
   const [game, setGame] = useState(props);
@@ -86,4 +91,3 @@ export const GamePage = (props) => {
     </>
   );
 };
-  
