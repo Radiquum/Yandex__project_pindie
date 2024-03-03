@@ -69,10 +69,10 @@ export const AuthForm = (props) => {
         <button className={Styles["form__submit"]} type="submit">
           Войти
         </button>
-        {message.status && (
+      </div>
+      {message.status && (
           <p className={Styles["form__message"]}>{message.text}</p>
         )}
-      </div>
     </form>
   );
 };
