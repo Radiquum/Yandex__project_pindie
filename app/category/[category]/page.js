@@ -9,9 +9,11 @@ export default async function Home(props) {
       <CardsList
         title={data_category[props.params.category]}
         id={props.params.category}
-        data={await getNormalizedGamesDataByCategory(endpoints.games, props.params.category)}
+        data={await getNormalizedGamesDataByCategory(
+          endpoints.games,
+          props.params.category
+        )}
       ></CardsList>
     </main>
   );
 }
-

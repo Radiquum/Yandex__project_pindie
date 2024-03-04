@@ -10,10 +10,13 @@ import { usePathname } from "next/navigation";
 import { getMe, getJWT, isResponseOk, removeJWT } from "@/app/api/api-utils";
 import { endpoints } from "@/app/api/config";
 import { data_category } from "@/app/data/data";
+import { useAuthStore } from "@/app/store";
 
 export const Header = () => {
+  const isAuthorized = useAuthStore((state) => state.isAuthorized);
+  const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
+
   const [popupIsOpened, setPopupIsOpened] = useState(false);
-  const [isAuthorized, setIsAuthorized] = useState(false);
   function handlePopUp() {
     setPopupIsOpened(!popupIsOpened);
   }

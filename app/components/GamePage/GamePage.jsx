@@ -7,11 +7,14 @@ import {
   getJWT,
   checkIfUserVoted,
   isResponseOk,
+  vote
 } from "@/app/api/api-utils";
+import { useAuthStore } from "@/app/store";
 
 export const GamePage = (props) => {
   const [game, setGame] = useState(props);
-  const [isAuthorized, setIsAuthorized] = useState(false);
+  const isAuthorized = useAuthStore((state) => state.isAuthorized);
+  const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
   const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
@@ -19,15 +22,17 @@ export const GamePage = (props) => {
     if (jwt) {
       getMe(endpoints.me, jwt).then((userData) => {
         if (isResponseOk(userData)) {
-          setIsAuthorized(true);
           setCurrentUser(userData);
         } else {
-          setIsAuthorized(false);
           removeJWT();
+          setIsAuthorized(false);
         }
       });
+    } else {
+      setIsAuthorized(false);
+      setCurrentUser(null);
     }
-  }, []);
+  }, [isAuthorized]);
 
   const [isVoted, setIsVoted] = useState(false);
   useEffect(() => {

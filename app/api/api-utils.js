@@ -14,7 +14,7 @@ export const normalizeData = (data) => {
 
 export const getData = async (url) => {
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, { next: { revalidate: 10 } });
     if (response.status !== 200) {
       throw new Error("Ошибка получения данных");
     }
@@ -83,11 +83,14 @@ export const checkIfUserVoted = (game, userId) => {
   return game.users.find((user) => user.id === userId);
 };
 
-export const vote = async(url, jwt, usersArray) => {
+export const vote = async (url, jwt, usersArray) => {
   try {
     const response = await fetch(url, {
       method: "PUT",
-      headers: { Authorization: `Bearer ${jwt}` },
+      headers: {
+        "Authorization": `Bearer ${jwt}`,
+        "Content-Type": "application/json",
+      },
       body: JSON.stringify({ users_permissions_users: usersArray }),
     });
     if (response.status !== 200) {
@@ -97,4 +100,4 @@ export const vote = async(url, jwt, usersArray) => {
   } catch (error) {
     return error;
   }
-}
+};

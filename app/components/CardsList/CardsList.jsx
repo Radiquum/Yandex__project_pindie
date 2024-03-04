@@ -1,3 +1,4 @@
+"use client";
 import Link from "next/link";
 import Styles from "./CardsList.module.css";
 import { Card } from "../Card/Card";
