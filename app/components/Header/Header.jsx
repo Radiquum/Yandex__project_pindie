@@ -5,41 +5,25 @@ import Styles from "./Header.module.css";
 import { Overlay } from "../Overlay/Overlay";
 import { Popup } from "../Popup/Popup";
 import { AuthForm } from "../AuthForm/AuthForm";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
-import { getMe, getJWT, isResponseOk, removeJWT } from "@/app/api/api-utils";
-import { endpoints } from "@/app/api/config";
 import { data_category } from "@/app/data/data";
-import { useAuthStore } from "@/app/store";
+import { useStore } from "@/app/store/app-store";
+import { UserPreloader } from "./UserPreloader";
 
 export const Header = () => {
-  const isAuthorized = useAuthStore((state) => state.isAuthorized);
-  const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
-
+  const authContext = useStore();
   const [popupIsOpened, setPopupIsOpened] = useState(false);
+  const pathname = usePathname();
+
   function handlePopUp() {
     setPopupIsOpened(!popupIsOpened);
   }
 
-  function logout() {
-    setIsAuthorized(false);
-    removeJWT();
-  }
+  const logout = () => {
+    authContext.logout();
+  };
 
-  useEffect(() => {
-    async function checkAuth() {
-      let jwt = getJWT();
-      let user = await getMe(endpoints.me, jwt);
-      if (isResponseOk(user)) {
-        setIsAuthorized(true);
-      } else {
-        logout();
-      }
-    }
-    checkAuth();
-  }, []);
-
-  const pathname = usePathname();
   return (
     <header className={Styles.header}>
       <Link
@@ -76,9 +60,15 @@ export const Header = () => {
         <div className={Styles.auth}>
           <button
             className={Styles.auth__button}
-            onClick={isAuthorized ? logout : handlePopUp}
+            onClick={authContext.isAuth ? logout : handlePopUp}
           >
-            {isAuthorized ? "Выйти" : "Войти"}
+            {authContext.userState == "loading" ? (
+              <UserPreloader />
+            ) : authContext.isAuth ? (
+              "Выйти"
+            ) : (
+              "Войти"
+            )}
           </button>
         </div>
       </nav>
@@ -86,7 +76,7 @@ export const Header = () => {
         <>
           <Overlay handlePopUp={handlePopUp} />
           <Popup handlePopUp={handlePopUp}>
-            <AuthForm handlePopUp={handlePopUp} setAuth={setIsAuthorized} />
+            <AuthForm handlePopUp={handlePopUp} />
           </Popup>
         </>
       )}

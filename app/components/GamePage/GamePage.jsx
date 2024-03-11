@@ -1,54 +1,30 @@
 "use client";
+
 import Styles from "./Game.module.css";
 import { endpoints } from "@/app/api/config";
 import { useState, useEffect } from "react";
-import {
-  getMe,
-  getJWT,
-  checkIfUserVoted,
-  isResponseOk,
-  vote
-} from "@/app/api/api-utils";
-import { useAuthStore } from "@/app/store";
+import { checkIfUserVoted, isResponseOk, vote } from "@/app/api/api-utils";
+import { useStore } from "@/app/store/app-store";
 
 export const GamePage = (props) => {
+  const authContext = useStore();
   const [game, setGame] = useState(props);
-  const isAuthorized = useAuthStore((state) => state.isAuthorized);
-  const setIsAuthorized = useAuthStore((state) => state.setIsAuthorized);
-  const [currentUser, setCurrentUser] = useState(null);
-
-  useEffect(() => {
-    let jwt = getJWT();
-    if (jwt) {
-      getMe(endpoints.me, jwt).then((userData) => {
-        if (isResponseOk(userData)) {
-          setCurrentUser(userData);
-        } else {
-          removeJWT();
-          setIsAuthorized(false);
-        }
-      });
-    } else {
-      setIsAuthorized(false);
-      setCurrentUser(null);
-    }
-  }, [isAuthorized]);
-
   const [isVoted, setIsVoted] = useState(false);
+
   useEffect(() => {
-    if (currentUser && game) {
-      setIsVoted(checkIfUserVoted(game, currentUser.id));
+    if (authContext.user && game) {
+      setIsVoted(checkIfUserVoted(game, authContext.user.id));
     } else {
       setIsVoted(false);
     }
-  }, [currentUser, game]);
+  }, [authContext.user, game]);
 
   const handleVote = async () => {
-    const jwt = getJWT();
+    const jwt = authContext.token;
     let usersIdArray = game.users.length
       ? game.users.map((user) => user.id)
       : [];
-    usersIdArray.push(currentUser.id);
+    usersIdArray.push(authContext.user.id);
     const response = await vote(
       `${endpoints.games}/${game.id}`,
       jwt,
@@ -58,7 +34,7 @@ export const GamePage = (props) => {
       setIsVoted(true);
       setGame({
         ...game,
-        users: [...game.users, currentUser],
+        users: [...game.users, authContext.user],
       });
     }
   };
@@ -87,7 +63,7 @@ export const GamePage = (props) => {
           <button
             onClick={handleVote}
             className={`button ${Styles["about__vote-button"]}`}
-            disabled={!isAuthorized || isVoted}
+            disabled={!authContext.isAuth || isVoted}
           >
             {isVoted ? "Голос учтён" : "Голосовать"}
           </button>

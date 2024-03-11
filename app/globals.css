@@ -29,13 +29,15 @@ html {
 }
 
 body {
-  margin: 0;
   font-family: 'Anonymous Pro', serif;
   font-size: 26px;
   max-width: 1728px;
   border-right: 4px solid black;
   border-left: 4px solid black;
   margin: 0 auto;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -81,6 +83,7 @@ button {
 
 .main {
   overflow: hidden;
+  flex-grow: 1;
 }
 
 @media (width <= 1728px) {
