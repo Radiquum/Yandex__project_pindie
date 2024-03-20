@@ -10,11 +10,13 @@ import { usePathname } from "next/navigation";
 import { data_category } from "@/app/data/data";
 import { useStore } from "@/app/store/app-store";
 import { UserPreloader } from "./UserPreloader";
+import { useRouter } from "next/navigation";
 
 export const Header = () => {
   const authContext = useStore();
   const [popupIsOpened, setPopupIsOpened] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   function handlePopUp() {
     setPopupIsOpened(!popupIsOpened);
@@ -58,14 +60,14 @@ export const Header = () => {
           })}
         </ul>
         <div className={Styles.auth}>
-          <button
+        <button
             className={Styles.auth__button}
-            onClick={authContext.isAuth ? logout : handlePopUp}
+            onClick={authContext.isAuth ? () => {router.push('/profile')} : handlePopUp}
           >
             {authContext.userState == "loading" ? (
               <UserPreloader />
             ) : authContext.isAuth ? (
-              "Выйти"
+              "Профиль"
             ) : (
               "Войти"
             )}
