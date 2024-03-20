@@ -1,15 +1,12 @@
 "use client";
 import Link from "next/link";
-import Styles from "./CardsList.module.css";
+import Styles from "./CardsListSection.module.css";
 import { Card } from "../Card/Card";
 import { Preloader } from "../Preloader/Preloader";
 
 export const CardsList = (props) => {
   return (
-    <section className={Styles["list-section"]}>
-      <h2 className={Styles["list-section__title"]} id={props.id}>
-        {props.title}
-      </h2>
+    <>
       {props.data ? (
         <ul className={Styles["cards-list"]}>
           {props.data.map((item) => {
@@ -28,6 +25,6 @@ export const CardsList = (props) => {
       ) : (
         <Preloader />
       )}
-    </section>
+    </>
   );
 };
