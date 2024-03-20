@@ -68,6 +68,32 @@
   background-color: transparent;
 }
 
+.form__mode {
+  font-family: "Rubic One", sans-serif;
+  background-color: transparent;
+  font-size: 20px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  border: none;
+  padding: 16px 24px;
+  transition: color 0.3s ease-in-out, background-color 0.3s ease-in-out;
+}
+
+.form__mode:hover {
+  color: yellow;
+  background-color: #000;
+}
+
+.form__mode:disabled {
+  opacity: .9;
+  pointer-events: none;
+}
+
+.form__mode:hover ~ .form__submit {
+  color: #000;
+  background-color: transparent;
+}
+
 .form__submit {
   background-color: #000;
   color: #fff;

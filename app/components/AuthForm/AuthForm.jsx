@@ -8,18 +8,34 @@ import { useStore } from "@/app/store/app-store";
 
 export const AuthForm = (props) => {
   const authContext = useStore();
-  const [authData, setAuthData] = useState({ identifier: "", password: "" });
+  const [authData, setAuthData] = useState({identifier: "", password: ""});
   const [message, setMessage] = useState({ status: null, text: null });
+  const [mode, setMode] = useState("login");
+  const [endpoint, setEndpoint] = useState(endpoints.auth)
 
   const handleInput = (e) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
   };
 
+  const handleModeChange = () => {
+    setMode(mode === "login" ? "register" : "login");
+  };
+
+  useEffect(() => {
+    if (mode === "login") {
+      setAuthData({ identifier: "", password: "" });
+      setEndpoint(endpoints.auth)
+    } else {
+      setAuthData({ username: "", email: "", password: "" } );
+      setEndpoint(endpoints.register)
+    };
+  }, [mode])
+
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const userData = await authorize(endpoints.auth, authData);
+    const userData = await authorize(endpoint, authData);
     if (isResponseOk(userData)) {
-      authContext.login(userData.user, userData.jwt)
+      authContext.login(userData.user, userData.jwt);
       setMessage({ status: "success", text: "Вы авторизовались!" });
     } else {
       setMessage({ status: "error", text: "Неверные почта или пароль" });
@@ -38,13 +54,31 @@ export const AuthForm = (props) => {
 
   return (
     <form className={Styles["form"]} onSubmit={handleSubmit}>
-      <h2 className={Styles["form__title"]}>Авторизация</h2>
+      <h2 className={Styles["form__title"]}>
+        {mode === "login" ? "Авторизация" : "Регистрация"}
+      </h2>
       <div className={Styles["form__fields"]}>
+        {mode == "register" ? (
+          <label className={Styles["form__field"]}>
+            <span className={Styles["form__field-title"]}>
+              Имя пользователя
+            </span>
+            <input
+              className={Styles["form__field-input"]}
+              name="username"
+              type="text"
+              placeholder="hello"
+              onInput={handleInput}
+            />
+          </label>
+        ) : (
+          ""
+        )}
         <label className={Styles["form__field"]}>
           <span className={Styles["form__field-title"]}>Email</span>
           <input
             className={Styles["form__field-input"]}
-            name="identifier"
+            name={mode === "login" ? "identifier" : "email"}
             type="email"
             placeholder="hello@world.com"
             onInput={handleInput}
@@ -62,11 +96,14 @@ export const AuthForm = (props) => {
         </label>
       </div>
       <div className={Styles["form__actions"]}>
+        <button className={Styles["form__mode"]} type="button" onClick={handleModeChange}>
+          {mode === "login" ? "Регистрация" : "Вход"}
+        </button>
         <button className={Styles["form__reset"]} type="reset">
           Очистить
         </button>
         <button className={Styles["form__submit"]} type="submit">
-          Войти
+        {mode === "login" ? "Войти" : "Зарегистрироваться"}
         </button>
       </div>
       {message.status && (
