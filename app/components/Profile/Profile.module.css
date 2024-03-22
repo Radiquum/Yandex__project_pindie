@@ -18,16 +18,40 @@
     z-index: -1;
 }
 
+.profile__sectionTitle {
+    font-size: 30px;
+    font-weight: bold;
+    text-transform: uppercase;
+    border-bottom: 4px solid black;
+    padding: 10px 0;
+    position: relative;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
 .profile__container {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
     padding: 20px;
 }
+.profile__info, .profile__actions {
+    border-left: 14px solid black;
+    border-bottom: 8px solid black;
+    border-right: 4px solid black;
+    border-top: 4px solid black;
+}
 .profile__info-list {
-    margin-top: 12px;
+    padding-block: 12px;
+}
+.profile__info-list > * {
+    margin-left: 8px;
+    margin-bottom: 8px;
+    margin-right: 8px;
 }
 .profile__info {
-    flex: 1 0 600px;
+    flex: 1 0 max-content;
 }
-
+.profile__actions {
+    flex: 1 0 1vw;
+}

@@ -26,7 +26,7 @@ export const Profile = (props) => {
 
       <div className={Styles.profile__container}>
         <section className={Styles.profile__info}>
-          <h1 className={Styles.profile__title}>Пользователь</h1>
+          <h2 className={Styles.profile__sectionTitle}>Пользователь</h2>
           <div className={Styles["profile__info-list"]}>
             <p
               className={Styles.profile__name}
@@ -48,11 +48,11 @@ export const Profile = (props) => {
             }`}</p>
           </div>
         </section>
-        <section>
-          <h1 className={Styles.profile__title}>Действия</h1>
+        <section className={Styles.profile__actions}>
+          <h2 className={Styles.profile__sectionTitle}>Действия</h2>
           <div className={Styles["profile__info-list"]}>
             <button
-              className={`button ${Styles.profile__button}`}
+              className={`button`}
               onClick={() => {
                 props.logout();
                 router.push("/");
