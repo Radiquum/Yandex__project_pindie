@@ -45,10 +45,11 @@ export const authorize = async (url, data) => {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(data),
     });
+    const resData = await response.json();
     if (response.status !== 200) {
-      throw new Error("Ошибка получения данных");
+      throw new Error(resData.data[0].messages[0].id);
     }
-    return await response.json();
+    return resData;
   } catch (error) {
     return error;
   }

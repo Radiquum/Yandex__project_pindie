@@ -116,5 +116,11 @@
 }
 
 .form__message {
-  margin-top: 20px;
+  margin-block: 10px;
+}
+
+@media (width <= 650px) {
+  .form__actions {
+    flex-direction: column-reverse;
+  }
 }

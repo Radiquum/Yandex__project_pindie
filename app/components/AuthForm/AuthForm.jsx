@@ -8,10 +8,10 @@ import { useStore } from "@/app/store/app-store";
 
 export const AuthForm = (props) => {
   const authContext = useStore();
-  const [authData, setAuthData] = useState({identifier: "", password: ""});
+  const [authData, setAuthData] = useState({ identifier: "", password: "" });
   const [message, setMessage] = useState({ status: null, text: null });
   const [mode, setMode] = useState("login");
-  const [endpoint, setEndpoint] = useState(endpoints.auth)
+  const [endpoint, setEndpoint] = useState(endpoints.auth);
 
   const handleInput = (e) => {
     setAuthData({ ...authData, [e.target.name]: e.target.value });
@@ -23,22 +23,51 @@ export const AuthForm = (props) => {
 
   useEffect(() => {
     if (mode === "login") {
-      setAuthData({ identifier: "", password: "" });
-      setEndpoint(endpoints.auth)
+      setAuthData({
+        identifier: document.querySelector('input[type="email"]').value || "",
+        password: document.querySelector('input[type="password"]').value || "",
+      });
+      setEndpoint(endpoints.auth);
     } else {
-      setAuthData({ username: "", email: "", password: "" } );
-      setEndpoint(endpoints.register)
-    };
-  }, [mode])
+      setAuthData({
+        username: "",
+        email: document.querySelector('input[type="email"]').value || "",
+        password: document.querySelector('input[type="password"]').value || "",
+      });
+      setEndpoint(endpoints.register);
+    }
+  }, [mode]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userData = await authorize(endpoint, authData);
     if (isResponseOk(userData)) {
       authContext.login(userData.user, userData.jwt);
-      setMessage({ status: "success", text: "Вы авторизовались!" });
+
+      if (mode === "login") {
+        setMessage({ status: "success", text: "Вы авторизовались!" });
+        return;
+      } else {
+        setMessage({ status: "success", text: "Вы зарегистрировались!" });
+        return;
+      }
+      
     } else {
-      setMessage({ status: "error", text: "Неверные почта или пароль" });
+      
+      if (mode === "login") {
+        setMessage({ status: "error", text: "Неверные почта или пароль" });
+      } else {
+        if (userData.message === "Auth.form.error.email.taken") {
+          setMessage({ status: "error", text: "Эта почта уже используется или вы не указали имя пользователя." });
+        }
+        if (userData.message === "Auth.form.error.email.provide") {
+          setMessage({ status: "error", text: "Требуется указать почту." });
+        }
+        if (userData.message === "Auth.form.error.password.provide") {
+          setMessage({ status: "error", text: "Требуется ввести пароль." });
+        }
+        
+      }
     }
   };
 
@@ -95,20 +124,24 @@ export const AuthForm = (props) => {
           />
         </label>
       </div>
+      {message.status && (
+        <p className={Styles["form__message"]}>{message.text}</p>
+      )}
       <div className={Styles["form__actions"]}>
-        <button className={Styles["form__mode"]} type="button" onClick={handleModeChange}>
+        <button
+          className={Styles["form__mode"]}
+          type="button"
+          onClick={handleModeChange}
+        >
           {mode === "login" ? "Регистрация" : "Вход"}
         </button>
         <button className={Styles["form__reset"]} type="reset">
           Очистить
         </button>
         <button className={Styles["form__submit"]} type="submit">
-        {mode === "login" ? "Войти" : "Зарегистрироваться"}
+          {mode === "login" ? "Войти" : "Зарегистрироваться"}
         </button>
       </div>
-      {message.status && (
-        <p className={Styles["form__message"]}>{message.text}</p>
-      )}
     </form>
   );
 };
