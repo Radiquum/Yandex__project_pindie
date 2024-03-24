@@ -1,6 +1,6 @@
 export const UserPreloader = () => {
   return (
-    <div style={{ aspectRatio: "1/1", display: "grid", placeItems: "center" }}>
+    <div>
       <svg style={{ width: "64px" }} viewBox="0 0 128 128">
         <g>
           <path

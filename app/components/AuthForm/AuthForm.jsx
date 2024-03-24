@@ -42,33 +42,30 @@ export const AuthForm = (props) => {
     e.preventDefault();
     const userData = await authorize(endpoint, authData);
     if (isResponseOk(userData)) {
-      authContext.login(userData.user, userData.jwt);
-
-      if (mode === "login") {
-        setMessage({ status: "success", text: "Вы авторизовались!" });
-        return;
-      } else {
-        setMessage({ status: "success", text: "Вы зарегистрировались!" });
-        return;
-      }
-      
-    } else {
-      
-      if (mode === "login") {
-        setMessage({ status: "error", text: "Неверные почта или пароль" });
-      } else {
-        if (userData.message === "Auth.form.error.email.taken") {
-          setMessage({ status: "error", text: "Эта почта уже используется или вы не указали имя пользователя." });
+          authContext.login(userData.user, userData.jwt);
+    
+          if (mode === "login") {
+            setMessage({ status: "success", text: "Вы авторизовались!" });
+          } else {
+            setMessage({ status: "success", text: "Вы зарегистрировались!" });
+          }
+          
         }
-        if (userData.message === "Auth.form.error.email.provide") {
-          setMessage({ status: "error", text: "Требуется указать почту." });
-        }
-        if (userData.message === "Auth.form.error.password.provide") {
-          setMessage({ status: "error", text: "Требуется ввести пароль." });
-        }
-        
-      }
-    }
+    else if (mode === "login") {
+            setMessage({ status: "error", text: "Неверные почта или пароль" });
+          }
+    else {
+            if (userData.message === "Auth.form.error.email.taken") {
+              setMessage({ status: "error", text: "Эта почта уже используется или вы не указали имя пользователя." });
+            }
+            if (userData.message === "Auth.form.error.email.provide") {
+              setMessage({ status: "error", text: "Требуется указать почту." });
+            }
+            if (userData.message === "Auth.form.error.password.provide") {
+              setMessage({ status: "error", text: "Требуется ввести пароль." });
+            }
+            
+          }
   };
 
   useEffect(() => {
@@ -76,6 +73,7 @@ export const AuthForm = (props) => {
     if (authContext.user) {
       timer = setTimeout(() => {
         props.handlePopUp();
+        setMessage({ status: null, text: null })
       }, 1000);
     }
     return () => clearTimeout(timer);

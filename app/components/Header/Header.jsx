@@ -11,6 +11,7 @@ import { data_category } from "@/app/data/data";
 import { useStore } from "@/app/store/app-store";
 import { UserPreloader } from "./UserPreloader";
 import { useRouter } from "next/navigation";
+import { UserMenu } from "./UserMenu";
 
 export const Header = () => {
   const authContext = useStore();
@@ -60,18 +61,17 @@ export const Header = () => {
           })}
         </ul>
         <div className={Styles.auth}>
-        <button
-            className={Styles.auth__button}
-            onClick={authContext.isAuth ? () => {router.push('/profile')} : handlePopUp}
-          >
-            {authContext.userState == "loading" ? (
+          {authContext.userState == "loading" ? (
+            <button className={Styles.auth__button}>
               <UserPreloader />
-            ) : authContext.isAuth ? (
-              "Профиль"
-            ) : (
-              "Войти"
-            )}
-          </button>
+            </button>
+          ) : authContext.isAuth ? (
+            <UserMenu />
+          ) : (
+            <button className={Styles.auth__button} onClick={handlePopUp}>
+              Войти
+            </button>
+          )}
         </div>
       </nav>
       {popupIsOpened && (
