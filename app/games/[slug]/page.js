@@ -15,10 +15,14 @@ export default function Home(props) {
 
   useEffect(() => {
     async function fetchData() {
-      const request = await getNormalizedGameDataById(
-        endpoints.games,
-        props.params.slug.match(/\d*$/).toString()
-      );
+      let game_id = props.params.slug.split("-").at(-1);
+
+      if (!game_id) {
+        setPreloaderVisible(false);
+        return;
+      }
+
+      const request = await getNormalizedGameDataById(endpoints.games, game_id);
       if (isResponseOk(request)) {
         setGame(request);
         const gameTitle = `${request.title.replace(/\W/gm, "-")}-${request.id}`;
