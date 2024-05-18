@@ -40,12 +40,6 @@ export const Profile = (props) => {
             <p className={Styles.profile__status}>{`Статус: ${
               props.user.confirmed ? "Подтверждён" : "Не подтверждён"
             }`}</p>
-            <p
-              className={Styles.profile__role}
-            >{`Роль: ${props.user.role.name}`}</p>
-            <p className={Styles.profile__blocked}>{`Заблокирован: ${
-              props.user.blocked ? "Да" : "Нет"
-            }`}</p>
           </div>
         </section>
         <section className={Styles.profile__actions}>
