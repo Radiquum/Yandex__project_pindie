@@ -9,7 +9,12 @@ export const useStore = create((set, get) => ({
   token: null,
   userState: "loading",
   login: (user, token) => {
-    set({ isAuth: true, user, token, userState: "login" });
+    set({
+      isAuth: true,
+      user: { ...user, id: user._id },
+      token,
+      userState: "login",
+    });
     setJWT(token);
   },
   logout: () => {

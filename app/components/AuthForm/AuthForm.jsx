@@ -8,7 +8,7 @@ import { useStore } from "@/app/store/app-store";
 
 export const AuthForm = (props) => {
   const authContext = useStore();
-  const [authData, setAuthData] = useState({ identifier: "", password: "" });
+  const [authData, setAuthData] = useState({ email: "", password: "" });
   const [message, setMessage] = useState({ status: null, text: null });
   const [mode, setMode] = useState("login");
   const [endpoint, setEndpoint] = useState(endpoints.auth);
@@ -24,7 +24,7 @@ export const AuthForm = (props) => {
   useEffect(() => {
     if (mode === "login") {
       setAuthData({
-        identifier: document.querySelector('input[type="email"]').value || "",
+        email: document.querySelector('input[type="email"]').value || "",
         password: document.querySelector('input[type="password"]').value || "",
       });
       setEndpoint(endpoints.auth);
@@ -42,30 +42,29 @@ export const AuthForm = (props) => {
     e.preventDefault();
     const userData = await authorize(endpoint, authData);
     if (isResponseOk(userData)) {
-          authContext.login(userData.user, userData.jwt);
-    
-          if (mode === "login") {
-            setMessage({ status: "success", text: "Вы авторизовались!" });
-          } else {
-            setMessage({ status: "success", text: "Вы зарегистрировались!" });
-          }
-          
-        }
-    else if (mode === "login") {
-            setMessage({ status: "error", text: "Неверные почта или пароль" });
-          }
-    else {
-            if (userData.message === "Auth.form.error.email.taken") {
-              setMessage({ status: "error", text: "Эта почта уже используется или вы не указали имя пользователя." });
-            }
-            if (userData.message === "Auth.form.error.email.provide") {
-              setMessage({ status: "error", text: "Требуется указать почту." });
-            }
-            if (userData.message === "Auth.form.error.password.provide") {
-              setMessage({ status: "error", text: "Требуется ввести пароль." });
-            }
-            
-          }
+      authContext.login({ ...userData, id: userData._id }, userData.jwt);
+
+      if (mode === "login") {
+        setMessage({ status: "success", text: "Вы авторизовались!" });
+      } else {
+        setMessage({ status: "success", text: "Вы зарегистрировались!" });
+      }
+    } else if (mode === "login") {
+      setMessage({ status: "error", text: "Неверные почта или пароль" });
+    } else {
+      if (userData.message === "Auth.form.error.email.taken") {
+        setMessage({
+          status: "error",
+          text: "Эта почта уже используется или вы не указали имя пользователя.",
+        });
+      }
+      if (userData.message === "Auth.form.error.email.provide") {
+        setMessage({ status: "error", text: "Требуется указать почту." });
+      }
+      if (userData.message === "Auth.form.error.password.provide") {
+        setMessage({ status: "error", text: "Требуется ввести пароль." });
+      }
+    }
   };
 
   useEffect(() => {
@@ -73,7 +72,7 @@ export const AuthForm = (props) => {
     if (authContext.user) {
       timer = setTimeout(() => {
         props.handlePopUp();
-        setMessage({ status: null, text: null })
+        setMessage({ status: null, text: null });
       }, 1000);
     }
     return () => clearTimeout(timer);
@@ -105,7 +104,7 @@ export const AuthForm = (props) => {
           <span className={Styles["form__field-title"]}>Email</span>
           <input
             className={Styles["form__field-input"]}
-            name={mode === "login" ? "identifier" : "email"}
+            name="email"
             type="email"
             placeholder="hello@world.com"
             onInput={handleInput}
