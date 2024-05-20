@@ -1,6 +1,12 @@
 "use client";
 import { create } from "zustand";
-import { getJWT, setJWT, removeJWT, getMe } from "@/app/api/api-utils";
+import {
+  getJWT,
+  setJWT,
+  removeJWT,
+  getMe,
+  isResponseOk,
+} from "@/app/api/api-utils";
 import { endpoints } from "../api/config";
 
 export const useStore = create((set, get) => ({
@@ -25,7 +31,7 @@ export const useStore = create((set, get) => ({
     const jwt = getJWT();
     if (jwt) {
       const me = await getMe(endpoints.me, jwt);
-      if (me) {
+      if (isResponseOk(me) && me) {
         get().login(me, jwt);
       } else {
         get().logout();
