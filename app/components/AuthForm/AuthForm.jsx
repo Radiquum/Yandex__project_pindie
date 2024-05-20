@@ -52,17 +52,11 @@ export const AuthForm = (props) => {
     } else if (mode === "login") {
       setMessage({ status: "error", text: "Неверные почта или пароль" });
     } else {
-      if (userData.message === "Auth.form.error.email.taken") {
+      if (userData.message === "Заполни все поля") {
         setMessage({
           status: "error",
-          text: "Эта почта уже используется или вы не указали имя пользователя.",
+          text: "Заполни все поля.",
         });
-      }
-      if (userData.message === "Auth.form.error.email.provide") {
-        setMessage({ status: "error", text: "Требуется указать почту." });
-      }
-      if (userData.message === "Auth.form.error.password.provide") {
-        setMessage({ status: "error", text: "Требуется ввести пароль." });
       }
     }
   };
